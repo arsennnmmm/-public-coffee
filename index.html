@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PUBLIC Coffee House — меню и заказ с собой</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#1f1a19; --muted:#7a6f6c; --line:#e9e2df; --accent:#7b2a2e; --on-accent:#ffffff;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#181413; --ink:#f3ecea; --muted:#a89d9a; --line:#322a28; --accent:#d9777c; --on-accent:#1b1110; color-scheme: dark;}
+}
+:root[data-theme="dark"]{--bg:#181413; --ink:#f3ecea; --muted:#a89d9a; --line:#322a28; --accent:#d9777c; --on-accent:#1b1110; color-scheme: dark;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;-webkit-text-size-adjust:100%}
+main{max-width:34rem;margin:0 auto;padding:2.5rem 1.25rem 9rem}
+h1{font-size:2.6rem;line-height:1.02;letter-spacing:-.03em;margin:0 0 .6rem;font-weight:700;color:var(--accent)}
+.sub{margin:0 0 1.75rem;color:var(--muted);font-size:1.02rem}
+.info{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:1rem 0;margin-bottom:2.25rem;display:grid;gap:.35rem;font-size:.97rem}
+.info b{font-weight:500;color:var(--muted);display:inline-block;min-width:5.2rem}
+h2{font-size:1.15rem;margin:2rem 0 .25rem;font-weight:700;letter-spacing:-.01em}
+.item{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}
+.name{font-size:1.02rem}
+.price{color:var(--muted);font-size:.92rem;margin-top:.1rem}
+.ctl{display:flex;align-items:center;gap:.6rem;flex:none}
+.ctl button{width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:1.25rem;line-height:1;cursor:pointer}
+.ctl button.add{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.ctl button:focus-visible,.bar a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.qty{min-width:1.2rem;text-align:center;font-weight:500}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:.75rem 1.25rem calc(.75rem + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+.bar-in{max-width:34rem;margin:0 auto;display:flex;align-items:center;gap:1rem}
+.sum{flex:1;font-size:.93rem;color:var(--muted);line-height:1.3}
+.sum strong{display:block;color:var(--ink);font-size:1.02rem;font-weight:500}
+.bar a{flex:none;background:var(--accent);color:var(--on-accent);text-decoration:none;font-weight:700;padding:.9rem 1.3rem;border-radius:.7rem}
+.logo{width:4.5rem;height:4.5rem;border-radius:50%;display:block;margin:0 0 1rem;border:1px solid var(--line)}
+.info a{color:var(--accent);font-weight:500;text-decoration:none;display:inline-block;padding:.2rem 0;margin-right:1.1rem;border-bottom:1px solid var(--accent)}
+.info a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.when{margin-bottom:.5rem}.when h2{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.chips button{font:inherit;font-size:.95rem;padding:.6rem .95rem;border-radius:2rem;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:500}
+.chips button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.note{margin-top:2.5rem;font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.ctl button{transition:transform .12s}.ctl button:active{transform:scale(.92)}}
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" alt="Логотип PUBLIC Coffee House" src="data:image/webp;base64,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">
+  <h1>PUBLIC Coffee House</h1>
+  <p class="sub">Спешелти кофе и напитки в Актобе. Соберите заказ с собой и отправьте его в WhatsApp.</p>
+  <div class="info">
+    <div><b>Адрес</b><span id="addr"></span></div>
+    <div><b>Часы</b><span id="hours"></span></div>
+    <div><b>Заказ</b>с собой, заберёте у нас</div>
+    <div><b>Мы в сети</b><a href="https://instagram.com/public_coffeehouse" target="_blank" rel="noopener">Instagram</a><a href="https://2gis.kz/aktobe/firm/70000001114601858" target="_blank" rel="noopener">2ГИС</a></div>
+  </div>
+  <div class="when"><h2>Когда заберёте?</h2><div class="chips" id="chips" role="group" aria-label="Время получения"></div></div>
+  <div id="menu"></div>
+  <p class="note">Демо-версия. Позиции и цены можно менять в блоке CONFIG в начале скрипта.</p>
+</main>
+<div class="bar"><div class="bar-in">
+  <div class="sum"><strong id="cnt">Заказ пуст</strong><span id="hint">Нажмите «+» у позиции</span></div>
+  <a id="send" href="#" rel="noopener">Заказать в WhatsApp</a>
+</div></div>
+<script>
+// CONFIG: меняйте только этот блок
+var CONFIG = {
+  phone: "77472257691",
+  address: "мкр. Алтын Орда, 19г к1, Актобе",
+  hours: "ежедневно 08:00–23:00",
+  currency: "₸",
+  menu: [
+    {cat: "Чёрный кофе", items: [
+      {n: "Эспрессо", s: [["200 мл", 990]]},
+      {n: "Американо", s: [["200 мл", 1090], ["300 мл", 1190]]},
+      {n: "Batch Brew", s: [["200 мл", 1300], ["300 мл", 1590]]},
+      {n: "v60", t: "1800–3500"}
+    ]},
+    {cat: "Молочный кофе", items: [
+      {n: "Капучино", s: [["300 мл", 1390], ["400 мл", 1590]]},
+      {n: "Латте", s: [["300 мл", 1300], ["400 мл", 1400]]},
+      {n: "Флэт уайт", s: [["180 мл", 1400]]},
+      {n: "Раф ваниль", p: 2100},
+      {n: "Раф солёная карамель", p: 2100},
+      {n: "Раф шоколад", p: 2500},
+      {n: "Раф урбеч", p: 2100}
+    ]},
+    {cat: "Айс-кофе", items: [
+      {n: "Айс-кофе", p: 2300},
+      {n: "Айс урбеч", p: 2500},
+      {n: "Айс-латте", p: 1890},
+      {n: "Бамбл", p: 2000},
+      {n: "Эспрессо-тоник", p: 1750},
+      {n: "Эспрессо-тоник гранат", p: 2000}
+    ]},
+    {cat: "Не кофе", items: [
+      {n: "Какао", s: [["300 мл", 1500]]},
+      {n: "Какао кокос", s: [["300 мл", 1700]]},
+      {n: "Горячий шоколад", s: [["300 мл", 1850]]}
+    ]},
+    {cat: "Лимонад", items: [
+      {n: "Щавель", s: [["300 мл", 1350], ["400 мл", 1550]]},
+      {n: "Щавель-яблоко", s: [["300 мл", 1400], ["400 мл", 1600]]},
+      {n: "Щавель-апельсин", s: [["300 мл", 1600], ["400 мл", 1800]]},
+      {n: "Гранат-вишня", s: [["300 мл", 1750], ["400 мл", 1950]]}
+    ]},
+    {cat: "Чай", items: [
+      {n: "Чай чёрный", s: [["300 мл", 1500]]},
+      {n: "Сбор трав", s: [["300 мл", 1500]]},
+      {n: "Глинтвейн", s: [["300 мл", 1490]]}
+    ]},
+    {cat: "Коктейли", items: [
+      {n: "Молочный", s: [["300 мл", 1700]]},
+      {n: "Шоколадный", s: [["300 мл", 2600]]},
+      {n: "Клубничный", s: [["300 мл", 2100]]},
+      {n: "Молочно-банановый", s: [["300 мл", 1900]]}
+    ]},
+    {cat: "Фреш", items: [
+      {n: "Апельсин", s: [["300 мл", 1500], ["400 мл", 1900]]},
+      {n: "Яблоко", s: [["300 мл", 1500], ["400 мл", 1700]]},
+      {n: "Морковь-яблоко", s: [["300 мл", 1500], ["400 мл", 1700]]}
+    ]}
+  ]
+};
+// Позиция с размерами: {n: "Латте", s: [["300 мл", 1300]]}; без размера: {n: "Бамбл", p: 2000}; цена текстом: {n: "v60", t: "1800–3500"}
+
+var WHEN = ["Как можно скорее", "Через 15 минут", "Через 30 минут", "Через 1 час"], when = 0;
+var qty = {}, byId = {}, id = 0;
+document.getElementById("addr").textContent = CONFIG.address;
+document.getElementById("hours").textContent = CONFIG.hours;
+CONFIG.menu.forEach(function (g) {
+  var out = [];
+  g.items.forEach(function (it) {
+    if (it.s) it.s.forEach(function (v) { out.push({n: it.n + ", " + v[0], p: v[1]}); });
+    else out.push(it);
+  });
+  g.items = out;
+});
+var chipsEl = document.getElementById("chips");
+WHEN.forEach(function (w, i) {
+  var b = document.createElement("button"); b.textContent = w; b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+  b.onclick = function () { when = i; Array.prototype.forEach.call(chipsEl.children, function (c, j) { c.setAttribute("aria-pressed", j === i ? "true" : "false"); }); refresh(); };
+  chipsEl.appendChild(b);
+});
+var menuEl = document.getElementById("menu");
+
+CONFIG.menu.forEach(function (g) {
+  var h = document.createElement("h2"); h.textContent = g.cat; menuEl.appendChild(h);
+  g.items.forEach(function (it) {
+    var k = "i" + (id++); byId[k] = it; qty[k] = 0;
+    var row = document.createElement("div"); row.className = "item";
+    var left = document.createElement("div");
+    var nm = document.createElement("div"); nm.className = "name"; nm.textContent = it.n; left.appendChild(nm);
+    if (it.p || it.t) { var pr = document.createElement("div"); pr.className = "price"; pr.textContent = (it.p || it.t) + " " + CONFIG.currency; left.appendChild(pr); }
+    var ctl = document.createElement("div"); ctl.className = "ctl";
+    var minus = document.createElement("button"); minus.textContent = "−"; minus.setAttribute("aria-label", "Убрать " + it.n);
+    var q = document.createElement("span"); q.className = "qty"; q.textContent = "0";
+    var plus = document.createElement("button"); plus.className = "add"; plus.textContent = "+"; plus.setAttribute("aria-label", "Добавить " + it.n);
+    minus.onclick = function () { if (qty[k] > 0) { qty[k]--; q.textContent = qty[k]; refresh(); } };
+    plus.onclick = function () { qty[k]++; q.textContent = qty[k]; refresh(); };
+    ctl.appendChild(minus); ctl.appendChild(q); ctl.appendChild(plus);
+    row.appendChild(left); row.appendChild(ctl); menuEl.appendChild(row);
+  });
+});
+
+function refresh() {
+  var lines = [], total = 0, sum = 0, priced = true;
+  Object.keys(qty).forEach(function (k) {
+    if (qty[k] > 0) {
+      total += qty[k]; lines.push("• " + byId[k].n + " × " + qty[k]);
+      if (byId[k].p) sum += byId[k].p * qty[k]; else priced = false;
+    }
+  });
+  var cnt = document.getElementById("cnt"), hint = document.getElementById("hint");
+  if (!total) { cnt.textContent = "Заказ пуст"; hint.textContent = "Нажмите «+» у позиции"; }
+  else { cnt.textContent = "Позиций: " + total; hint.textContent = priced && sum ? "Сумма: " + sum + " " + CONFIG.currency : "Цену уточнят в WhatsApp"; }
+  var text = total
+    ? "Здравствуйте! Хочу заказать с собой:\n" + lines.join("\n") + (priced && sum ? "\nСумма: " + sum + " " + CONFIG.currency : "") + "\nЗаберу: " + WHEN[when].toLowerCase()
+    : "Здравствуйте! Хочу сделать заказ с собой.";
+  document.getElementById("send").href = "https://wa.me/" + CONFIG.phone + "?text=" + encodeURIComponent(text);
+}
+refresh();
+</script>
+</body>
+</html>
